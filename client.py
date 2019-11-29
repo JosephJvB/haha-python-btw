@@ -1,39 +1,53 @@
 import os
-import requests
+import random
+from discord_api import Discord_Api
 
-# - Auth with discord using token
-# - Get a guild
-# - Get all users in guild
-# - Get user with role in guild: user1
-# - Choose a random user from the guild who isnt user1: user2
-# - remove role from user1, put on user2
-# - send messages to channel in guild
-
-class Client(object):
+class Client(Discord_Api):
     def __init__(self):
-        print('hello worldington')
-        with requests.Session() as sesh: 
-            self.sesh = sesh
-            self._base = 'https://discordapp.com/api'
-            self._auth = f'Bot {os.getenv("token")}'
+        super(Client, self).__init__()
+        self.all_members = []
+        self.prev = None
+        self.next = None
 
-    def get_all_members(self): 
-        members = []
+    def run(self):
+        self.get_all_members()
+        self.get_prev_uotd()
+        self.get_next_uotd()
+        self.finale()
+        return
+
+    def get_all_members(self):
+        m = [] 
         go_agane = True
         while go_agane: # python doesnt have do/while
-            last_id = 0 if not len(members) > 0 else members[-1]['user']['id']
+            last_id = 0 if not len(m) > 0 else m[-1]['user']['id']
             r = self.req_members(after=last_id)
-            members += r
+            m += r
             go_agane = len(r) == 1000 # if len is less that 1000, we are done
-        print(f'got {len(members)} members')
-        return members
-    
-    def req_members(self, after=0):
-        h = { 'Authorization': self._auth }
-        u = self._base + f'/guilds/{os.getenv("guild")}/members?limit=1000&after={after}'
-        r = self.sesh.get(u, headers=h)
-        return r.json()
+        print(f'got {len(m)} members')
+        self.all_members = m
+        return m
 
-if __name__ == '__main__':
-    c = Client()
-    c.get_all_members()
+    def get_prev_uotd(self):
+        r = os.getenv('uotd')
+        p = [u for u in self.all_members if r in u['roles']]
+        self.prev = None if len(p) == 0 else p[0]
+        return p
+
+    def get_next_uotd(self):
+        l = self.all_members
+        if(self.prev):
+            l.remove(self.prev)
+        r = os.getenv('active')
+        l = [u for u in l if r in u['roles']]
+        n = random.choice(l)
+        self.next = n
+        return n
+
+    def finale(self):
+        if(self.prev):
+            self.req_remove_user_role(self.prev)
+            self.req_post_msg(f'<@{self.prev["user"]["id"]}> is gone!')
+        self.req_add_user_role(self.next)
+        self.req_post_msg(f'<@{self.next["user"]["id"]}> is up next!')
+        return

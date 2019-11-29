@@ -19,12 +19,12 @@ class Client(object):
 
     def get_all_members(self): 
         members = []
-        r = self.req_members()
-        members += r
-        while len(r) == 1000:
-            last_id = r[-1]['user']['id']
+        go_agane = True
+        while go_agane: # python doesnt have do/while
+            last_id = 0 if not len(members) > 0 else members[-1]['user']['id']
             r = self.req_members(after=last_id)
             members += r
+            go_agane = len(r) == 1000 # if len is less that 1000, we are done
         print(f'got {len(members)} members')
         return members
     

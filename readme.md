@@ -12,6 +12,8 @@ What I really want is:
 - remove role from user1, put on user2
 - send messages to channel in guild
 - I'll do it with the WEB API, stuff this tricky bot async event looping business, frankly
+    - https://discordapp.com/developers/docs/resources/
+    - this seems fun: https://discordapp.com/developers/docs/resources/channel#trigger-typing-indicator
 
 ### todo:
 - redis

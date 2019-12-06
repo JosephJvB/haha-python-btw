@@ -34,5 +34,5 @@ class Discord_Api(object):
         h = { 'Authorization': self._auth }
         u = self._base + f'/channels/{self._channel}/messages'
         d = { 'content': c }
-        r = self.sesh.post(u, headers=h, json=d)
-        return r.json()
+        self.sesh.post(u, headers=h, json=d)
+        return

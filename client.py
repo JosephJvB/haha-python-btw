@@ -47,7 +47,27 @@ class Client(Discord_Api):
     def finale(self):
         if(self.prev):
             self.req_remove_user_role(self.prev)
-            self.req_post_msg(f'<@{self.prev["user"]["id"]}> is gone!')
+            self.req_post_msg(self.get_out_msg())
         self.req_add_user_role(self.next)
-        self.req_post_msg(f'<@{self.next["user"]["id"]}> is up next!')
+        self.req_post_msg(self.get_in_msg())
         return
+
+    def get_out_msg(self):
+        u = f'<@{self.prev["user"]["id"]}>'
+        l = [
+            u + ' is old news',
+            u + ' has died from ligma',
+            u + ' has been perma-banned',
+            u + ' is cancelled'
+        ]
+        return random.choice(l)
+
+    def get_in_msg(self):
+        u = f'<@{self.next["user"]["id"]}>'
+        l = [
+            u + ' is mucho more macho',
+            u + ' has been chosen by the gamer gods',
+            'Please welcome our new gaming overlord, ' + u,
+            u + ' has the biggest brain in the server'
+        ]
+        return random.choice(l)

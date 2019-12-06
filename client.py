@@ -54,20 +54,33 @@ class Client(Discord_Api):
 
     def get_out_msg(self):
         u = f'<@{self.prev["user"]["id"]}>'
-        l = [
+        m = random.choice([
             u + ' is old news',
             u + ' has died from ligma',
             u + ' has been perma-banned',
             u + ' is cancelled'
-        ]
-        return random.choice(l)
+        ])
+        e = random.choice([
+            '😔',
+            '☠️',
+            '😖',
+            '🇫',
+            '🇱',
+        ])
+        return f'{e} {m} {e}'
 
     def get_in_msg(self):
         u = f'<@{self.next["user"]["id"]}>'
-        l = [
+        m = random.choice([
             u + ' is mucho more macho',
             u + ' has been chosen by the gamer gods',
             'Please welcome our new gaming overlord, ' + u,
             u + ' has the biggest brain in the server'
-        ]
-        return random.choice(l)
+        ])
+        e = random.choice([
+            '👑',
+            '😍',
+            '😎',
+            '😳'
+        ])
+        return f'{e} {m} {e}'

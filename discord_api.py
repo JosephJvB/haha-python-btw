@@ -17,15 +17,15 @@ class Discord_Api(object):
         r = self.sesh.get(u, headers=h)
         return r.json()
 
-    def req_remove_user_role(self, u):
+    def req_remove_user_role(self, m):
         h = { 'Authorization': self._auth }
-        u = self._base + f'/guilds/{self._guild}/members/{u["user"]["id"]}/roles/{self._role}'
+        u = self._base + f'/guilds/{self._guild}/members/{m["user"]["id"]}/roles/{self._role}'
         self.sesh.delete(u, headers=h)
         return
 
-    def req_add_user_role(self, u):
+    def req_add_user_role(self, m):
         h = { 'Authorization': self._auth }
-        u = self._base + f'/guilds/{self._guild}/members/{u["user"]["id"]}/roles/{self._role}'
+        u = self._base + f'/guilds/{self._guild}/members/{m["user"]["id"]}/roles/{self._role}'
         self.sesh.put(u, headers=h)
         return
 

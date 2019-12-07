@@ -7,6 +7,8 @@ if __name__ == '__main__':
         c = Client()
         c.run()
     except Exception as e:
+        print(e)
+        print(e.args)
         u = os.getenv('hook')
         j = os.getenv('joe')
         d = {

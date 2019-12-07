@@ -43,9 +43,11 @@ class Client(Discord_Api):
             l.remove(self.prev)
         r = os.getenv('active')
         l = [u for u in l if r in u['roles']]
-        n = random.choice(l)
-        self.next = n
-        return
+        if len(l) > 0:
+            n = random.choice(l)
+            self.next = n
+        else:
+            raise Exception('get_next_uotd ERROR: No eligible users')
 
     def finale(self):
         if(self.prev):
@@ -87,3 +89,5 @@ class Client(Discord_Api):
             '😳'
         ])
         return f'{e} {m} {e}'
+
+        '331436384349061124', '331436711462567941', '412248272615243776', '437714088794128384', '439194138739474457', '439196327084294144', '439196578931277824', '439197067882004500', '442015941665095690', '443462226469322762', '482249690453114880', '499721717128757258', '585535190215163905'

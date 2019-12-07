@@ -26,13 +26,16 @@ class Client(Discord_Api):
             go_agane = len(r) == 1000 # if len is less that 1000, we are done
         print(f'got {len(m)} members')
         self.all_members = m
-        return m
+        return
 
     def get_prev_uotd(self):
         r = os.getenv('uotd')
-        p = [u for u in self.all_members if r in u['roles']]
-        self.prev = None if len(p) == 0 else p[0]
-        return p
+        if self.all_members[0].get('roles'):
+            p = [u for u in self.all_members if r in u['roles']]
+            self.prev = None if len(p) == 0 else p[0]
+        else:
+            raise Exception('get_prev_uotd ERROR:\nDont have roles property on user')
+        return
 
     def get_next_uotd(self):
         l = self.all_members
@@ -42,7 +45,7 @@ class Client(Discord_Api):
         l = [u for u in l if r in u['roles']]
         n = random.choice(l)
         self.next = n
-        return n
+        return
 
     def finale(self):
         if(self.prev):

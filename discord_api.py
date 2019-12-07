@@ -15,18 +15,29 @@ class Discord_Api(object):
         h = { 'Authorization': self._auth }
         u = self._base + f'/guilds/{os.getenv("guild")}/members?limit=1000&after={after}'
         r = self.sesh.get(u, headers=h)
-        return r.json()
+        if r.ok:
+            return r.json()
+        else:
+            raise Exception('req_members ERROR:\n'+r.text)
 
     def req_remove_user_role(self, m):
         h = { 'Authorization': self._auth }
         u = self._base + f'/guilds/{self._guild}/members/{m["user"]["id"]}/roles/{self._role}'
-        self.sesh.delete(u, headers=h)
+        r = self.sesh.delete(u, headers=h)
+        if r.ok:
+            return r.json()
+        else:
+            raise Exception('req_remove_user_role ERROR:\n'+r.text)
         return
 
     def req_add_user_role(self, m):
         h = { 'Authorization': self._auth }
         u = self._base + f'/guilds/{self._guild}/members/{m["user"]["id"]}/roles/{self._role}'
-        self.sesh.put(u, headers=h)
+        r = self.sesh.put(u, headers=h)
+        if r.ok:
+            return r.json()
+        else:
+            raise Exception('req_add_user_role ERROR:\n'+r.text)
         return
 
     # todo: rich embed
@@ -34,5 +45,9 @@ class Discord_Api(object):
         h = { 'Authorization': self._auth }
         u = self._base + f'/channels/{self._channel}/messages'
         d = { 'content': c }
-        self.sesh.post(u, headers=h, json=d)
+        r = self.sesh.post(u, headers=h, json=d)
+        if r.ok:
+            return r.json()
+        else:
+            raise Exception('req_post_msg ERROR:\n'+r.text)
         return

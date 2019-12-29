@@ -5,10 +5,9 @@ from datetime import datetime
 from client import Client
 
 if __name__ == '__main__':
-    timeout = 60 * 60 * 24
+    timeout = 60 * 58
     while True:
-        print('asdasdadssd', datetime.now().hour)
-        if os.getenv('status') == 'live':
+        if datetime.now().hour == int(os.getenv('hour')):
             c = Client()
             c.run()
         time.sleep(timeout)

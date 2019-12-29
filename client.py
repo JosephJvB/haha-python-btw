@@ -10,10 +10,15 @@ class Client(Discord_Api):
         self.next = None
 
     def run(self):
+        print('\nbegin\n')
         self.get_all_members()
+        print('\ngot users\n')
         self.get_prev_uotd()
+        print('\ngot prev user\n')
         self.get_next_uotd()
-        self.finale()
+        print('\ngot next user\n')
+        self.finale()        
+        print('\nend\n')
         return
 
     def get_all_members(self):
@@ -89,5 +94,3 @@ class Client(Discord_Api):
             '😳'
         ])
         return f'{e} {m} {e}'
-
-        '331436384349061124', '331436711462567941', '412248272615243776', '437714088794128384', '439194138739474457', '439196327084294144', '439196578931277824', '439197067882004500', '442015941665095690', '443462226469322762', '482249690453114880', '499721717128757258', '585535190215163905'
